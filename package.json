@@ -35,6 +35,7 @@
     "babel-preset-stage-3": "^6.5.0",
     "babel-register": "^6.8.0",
     "nodemon": "^1.9.2",
-    "webpack": "1.12.14"
+    "webpack": "1.12.14",
+    "webpack-dev-middleware": "1.6.1"
   }
 }
