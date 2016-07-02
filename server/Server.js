@@ -1,8 +1,17 @@
 import Express from 'express';
+import qs from 'query-string';
 import webpack from 'webpack';
 import WebpackConfig from '../webpack.config';
 import webpackDevMiddleware from 'webpack-dev-middleware';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { match, RouterContext } from 'react-router';
 import { fetchComponentData } from './fetchData';
+import { renderFullPage, renderError } from './Renderer';
+import configureStore from '../src/store/configureStore';
+import routes from '../src/routes';
+import { renderApp } from '../src/app';
 
 const app = new Express();
 
@@ -34,7 +43,6 @@ app.use((req, res, next) => {
       await fetchComponentData(store, renderProps.components, renderProps.params);
       const query = qs.stringify(req.query);
       const appComponent = await renderApp(store, <RouterContext {...renderProps} />, {
-        apiUrl: ServerConfig.authAndApiOrigin,
         isServer: true,
         cookies: req.get('Cookie'),
         currentLocation: req.path + (query.length ? `?${query}` : ''),
